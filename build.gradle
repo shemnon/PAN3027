@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'org.web3j' version '4.4.0'
+    id 'org.web3j.solidity' version '0.1.6'
+    id 'application'
+}
+
+group 'tech.pegasys.support'
+version '0.0.0-SNAPSHOT'
+
+sourceCompatibility = 11
+
+repositories {
+    jcenter()
+    mavenCentral()
+    mavenLocal()
+    maven { url "https://consensys.bintray.com/pegasys-repo" }
+}
+
+dependencies {
+    implementation 'com.google.guava:guava:28.0-jre'
+
+    implementation 'org.apache.logging.log4j:log4j-api:2.12.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.12.0'
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.12.0'
+
+    implementation 'org.web3j:core:4.4.0'
+
+    implementation 'tech.pegasys.pantheon.internal:pantheon:1.2.1'
+}
+
+application {
+    mainClassName = 'tech.pegasys.support.pan3027.Main'
+}
+
+solidity {
+    // npm install -g solc
+    executable = '/usr/local/bin/solc'
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="MyApp" packages="">
+  <Properties>
+    <Property name="root.log.level">TRACE</Property>
+  </Properties>
+
+  <Appenders>
+    <RollingFile name="RollingFile" fileName="build/logs/debug.log"
+                 filePattern="build/logs/debug-%i.log">
+      <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSSZZZ} | %t | %-5level | %c{1} | %msg%n"/>
+      <Policies>
+        <SizeBasedTriggeringPolicy size="50 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="5"/>
+    </RollingFile>
+    <RollingFile name="RollingFileTrace" fileName="build/logs/trace.log"
+                 filePattern="build/logs/trace-%i.log">
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSSZZZ} | %t | %-5level | %c{1} | %msg%n"/>
+      <Policies>
+        <SizeBasedTriggeringPolicy size="50 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="5"/>
+    </RollingFile>
+    <Console name="Console" target="SYSTEM_OUT">
+      <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSSZZZ} | %t | %-5level | %c{1} | %msg%n"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <logger name="tech.pegasys.pantheon.ethereum.vm.EVM" level="OFF" additivity="false" />
+    <logger name="tech.pegasys.pantheon.ethereum.blockcreation.BlockMiner" level="OFF" additivity="false" />
+    <Root level="${sys:root.log.level}">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="RollingFile"/>
+      <AppenderRef ref="RollingFileTrace"/>
+    </Root>
+  </Loggers>
+</Configuration>
