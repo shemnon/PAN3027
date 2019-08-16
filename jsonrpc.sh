@@ -39,6 +39,7 @@ read -p "Press [Enter] key to call SimpleStorage2.get ..."
 
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_call","params":[{"from":"0xfe3b557e8fb62b89f4916b721be55ceb828dbd73","to":"0x2f632b08ece7e9dca0fcff1f91c1d5bc245440eb","data":"0x6d4ce63c"},"latest"],"id":14}' http://127.0.0.1:$RPC_PORT
 
+echo
 read -p "Press [Enter] key to shutdown ..."
 kill %1
 
