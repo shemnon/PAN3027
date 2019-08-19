@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 import com.google.common.io.Files;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.web3j.crypto.Credentials;
@@ -32,6 +33,8 @@ public class Main {
 
     // for debugging
     System.setProperty("vertx.options.blockedThreadCheckInterval", "200000000");
+    final HttpLoggingInterceptor logging = new HttpLoggingInterceptor(LOG::debug);
+    logging.setLevel(HttpLoggingInterceptor.Level.BODY);
     final HttpService httpService =
         new HttpService(
             "http://127.0.0.1:" + jsonRpcPort,
@@ -39,6 +42,7 @@ public class Main {
                 .callTimeout(Duration.ofHours(1))
                 .readTimeout(Duration.ofHours(1))
                 .writeTimeout(Duration.ofHours(1))
+                .addInterceptor(logging)
                 .build());
 
     startPantheon(dataPath, jsonRpcPort);
