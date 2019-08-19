@@ -31,13 +31,14 @@ echo expecting "0x0000000000000000000000002f632b08ece7e9dca0fcff1f91c1d5bc245440
 
 read -p "Press [Enter] key to call SimpleStorage2.set ..."
 
-#SimpleStorage2.set
-curl -X POST --data '{"jsonrpc":"2.0","method":"eth_sendRawTransaction","params":["0xf8aa0285051f4d5c0083419ce0942f632b08ece7e9dca0fcff1f91c1d5bc245440eb80b844f71f7a25010101010101010101010101010101010101010101010101010101010101010102020202020202020202020202020202020202020202020202020202020202021ca01e4e61cd3d583e8d16a49111e041e5585d9a03b9cc75c1ca60f12cee5b30a3f6a04006493656b12ceacb05113f8ff758836ab52bc1b5365e391534473fa93e6c65"],"id":11}' http://127.0.0.1:$RPC_PORT
+#SimpleStorage.setValues
+curl -X POST --data '{"jsonrpc":"2.0","method":"eth_sendRawTransaction","params":["0xf8aa0285051f4d5c0083419ce09442699a7612a82f1d9c36148af9c77354759b210b80b8441f11d375010101010101010101010101010101010101010101010101010101010101010102020202020202020202020202020202020202020202020202020202020202021ca02788ec91dc0e6c71cb82b611001843472f5f14ddcb887f69f8093bd57e63afd9a076a861515cb1fa21fee459a9ebe83e639f925107b3f8339cbc659983a5e0320b"],"id":11}' http://127.0.0.1:$RPC_PORT
 
 echo
 read -p "Press [Enter] key to call SimpleStorage2.get ..."
 
-curl -X POST --data '{"jsonrpc":"2.0","method":"eth_call","params":[{"from":"0xfe3b557e8fb62b89f4916b721be55ceb828dbd73","to":"0x2f632b08ece7e9dca0fcff1f91c1d5bc245440eb","data":"0x6d4ce63c"},"latest"],"id":14}' http://127.0.0.1:$RPC_PORT
+#SimpleStorage.getInstance
+curl -X POST --data '{"jsonrpc":"2.0","method":"eth_call","params":[{"from":"0xfe3b557e8fb62b89f4916b721be55ceb828dbd73","to":"0x42699a7612a82f1d9c36148af9c77354759b210b","data":"0xde7b5d14"},"latest"],"id":14}' http://127.0.0.1:$RPC_PORT
 
 echo
 read -p "Press [Enter] key to shutdown ..."
