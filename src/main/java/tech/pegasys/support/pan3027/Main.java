@@ -71,7 +71,7 @@ public class Main {
       Arrays.fill(first, (byte) 1);
       Arrays.fill(second, (byte) 2);
 
-      final TransactionReceipt ss1SetVales = simpleStorage.set(first, second).send();
+      final TransactionReceipt ss1SetVales = simpleStorage.setValues(first, second).send();
       LOG.info("SimpleStorage.setValue result {}", ss1SetVales.getStatus());
 
       final var ss1GetValues = simpleStorage.getInstance().send();
