@@ -3,21 +3,27 @@ package tech.pegasys.support.pan3027;
 import tech.pegasys.pantheon.Pantheon;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Collections;
 
 import com.google.common.io.Files;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.datatypes.Function;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.simplestorage.SimpleStorage;
 import org.web3j.tx.gas.ContractGasProvider;
 import org.web3j.tx.gas.DefaultGasProvider;
+import org.web3j.tx.gas.StaticGasProvider;
 import org.web3j.utils.Numeric;
 
 public class Main {
@@ -75,6 +81,28 @@ public class Main {
       Arrays.fill(first, (byte) 1);
       Arrays.fill(second, (byte) 2);
 
+      final BigInteger gasEstimate =
+          web3j
+              .ethEstimateGas(
+                  new Transaction(
+                      credentials.getAddress(),
+                      null,
+                      BigInteger.ONE,
+                      BigInteger.valueOf(8_000_000),
+                      simpleStorage.getContractAddress(),
+                      BigInteger.ZERO,
+                      FunctionEncoder.encode(
+                          new Function(
+                              "setValues",
+                              Arrays.asList(
+                                  new org.web3j.abi.datatypes.generated.Bytes32(first),
+                                  new org.web3j.abi.datatypes.generated.Bytes32(second)),
+                              Collections.emptyList()))))
+              .send()
+              .getAmountUsed();
+      LOG.info("Estimated gas {}", gasEstimate);
+
+      simpleStorage.setGasProvider(new StaticGasProvider(DefaultGasProvider.GAS_PRICE, gasEstimate));
       final TransactionReceipt ss1SetVales = simpleStorage.setValues(first, second).send();
       LOG.info("SimpleStorage.setValue result {}", ss1SetVales.getStatus());
 
